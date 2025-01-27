@@ -1,0 +1,12 @@
+pyproject.toml
+setup.py
+BasicLinearAlgebra.egg-info/PKG-INFO
+BasicLinearAlgebra.egg-info/SOURCES.txt
+BasicLinearAlgebra.egg-info/dependency_links.txt
+BasicLinearAlgebra.egg-info/top_level.txt
+Clustering/__init__.py
+Clustering/k_means.py
+Clustering/test.py
+DataStructures/Vector.py
+DataStructures/Vector_Test.py
+DataStructures/__init__.py

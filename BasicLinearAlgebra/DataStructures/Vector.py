@@ -1,0 +1,193 @@
+import numpy as np
+import DataStructures.Vector as Vector
+#import Vector as Vector
+import copy
+
+class Vector:
+
+    def __init__(self, values: list[int|float]):
+        
+        self.values: np.array = np.asarray(values)
+        pass
+
+    # def add(self, vector: Vector):
+        
+    #     for i in range(len(self.values)):
+    #         self.values[i] += vector.values[i]
+
+    
+    def add(self, value: list[int | float] | int | float):
+
+        if isinstance(value, Vector):
+            for i in range(len(self.values)):
+                self.values[i] += value.values[i]
+        else:
+            for i in range(len(self.values)):
+                self.values[i] += value
+
+        return self
+
+    def subtract(self, value):
+
+        if isinstance(value, Vector):
+            for i in range(len(self.values)):
+                self.values[i] -= value.values[i]
+        else:
+            for i in range(len(self.values)):
+                self.values[i] -= value
+
+        return self
+
+    def scale(self, scalar: int|float):
+        for i in range(len(self.values)):
+            self.values[i] *= scalar
+
+        return self
+
+    def dot_product(self, vector: Vector):
+
+        total = 0
+
+        if len(self.values) != len(vector.values):
+            raise ValueError("Vectors are not the same size")
+
+        for i in range(len(self.values)):
+            total += (self.values[i] * vector.values[i])
+
+        return total
+    
+
+    def euclidean_norm(self) -> int | float:
+
+        """
+        Calculates the Euclidean Norm of a vector. To do this we calculate the Dot Product of the
+        vector with it self and take the square-root of the result. The Euclidean Norm can be interpretted as the magnitude of a vector.
+        It's a geometric way to measure the distance of a vector
+
+        Returns:
+            int | float: The Euclidean Norm of the vector.
+        """
+    
+        norm: int | float = 0
+
+        norm = self.dot_product(self)
+        norm = np.sqrt(norm)
+
+        return norm
+    
+    def root_mean_square(self) -> int | float:
+
+        """
+        Calculates the Root Mean Square value of vector. It divides the norm of the vector the square-root of the 
+        number of dimensions in the vector. This value tells us the typical value of an entry in the vector.
+
+        Returns:
+           int | float: The Root Mean Square value, the typical value of an entry in the vector.
+        """
+
+        rms: int | float = 0
+
+        rms = self.euclidean_norm() / np.sqrt(len(self.values))
+
+        return rms
+    
+    def distance(self, vector: Vector) -> int | float:
+
+        """
+        Calculates the Euclidean Distance of two vectors. It is calculated by finding the difference 
+        of the two vectors and then getting the norm of the result.
+
+        Returns:
+            int | float: The Euclidean Distance.
+        """
+        
+        distance: int | float = 0
+
+        distance = ((self.subtract(vector)).euclidean_norm())
+
+        return distance
+    
+
+    def sum(self) -> int | float:
+
+        total: int | float = 0
+
+        ones = Vector(np.full(len(self.values), 1))
+        total = ones.dot_product(self)
+
+        return total
+
+    def average(self) -> int | float:
+        avg: int | float = 0
+
+        denominator = Vector(np.full(len(self.values), 1 / len(self.values)))
+        avg = denominator.dot_product(self)
+
+        return avg
+    
+    def sum_of_squares(self) -> int | float:
+        return self.dot_product(self)
+    
+    def weighted_sum(self, weights: Vector) -> int | float:
+        
+        return self.dot_product(weights)
+
+
+    def demeaned_vector(self):
+        avg_vector = Vector(np.full(len(self.values), self.average()))
+        vector = copy.deepcopy(self)
+        demeaned = vector.subtract(avg_vector)
+
+        return demeaned
+    
+    def standard_deviation(self) -> int | float:
+        
+        std_dev: int | float = 0
+
+        # Sum of squared demeaned vector entries
+        std_dev = self.demeaned_vector()
+        std_dev = std_dev.dot_product(std_dev)
+
+        # Divide by n
+        std_dev /= len(self.values)
+
+        # Get the square root
+        std_dev = np.sqrt(std_dev)
+
+        return std_dev
+    
+    def angle_between_vectors(self, vector: Vector) -> int | float:
+        
+        angle = 0
+
+        angle = np.arccos(self.dot_product(vector) / (self.euclidean_norm() * vector.euclidean_norm()))
+
+        return angle
+    
+    def calculate_z_scores(self):
+        
+        demeaned_vector = self.demeaned_vector()
+        inv_std_dev = ( 1 / self.standard_deviation())
+        z = demeaned_vector.scale(inv_std_dev)
+
+        return z
+
+    def correlation_coefficient(self, vector: Vector) -> int | float:
+        # WIP: Is not accurate :(
+        corr_coef: int | float = 0
+        
+        # corr_coef = (self.demeaned_vector().dot_product(vector.demeaned_vector())
+        #                 / (self.demeaned_vector().euclidean_norm() * vector.demeaned_vector().euclidean_norm())
+        #             )
+
+        u = (self.demeaned_vector().scale( 1 / self.standard_deviation())) 
+        v = (vector.demeaned_vector().scale(1 / vector.standard_deviation())) 
+
+        print(self.values)
+        print(u.values)
+        print(vector.values)
+        print(v.values)
+
+        corr_coef = u.dot_product(v) / len(vector.values)
+
+        return corr_coef
