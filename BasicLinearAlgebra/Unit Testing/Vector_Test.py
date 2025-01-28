@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 from DataStructures.Vector import Vector
+from Clustering import k_means
 
 class Vector_Unit_Test(unittest.TestCase):
 
@@ -192,15 +193,6 @@ class Vector_Unit_Test(unittest.TestCase):
     #     sample_correlation_coefficient = np.corrcoef(vector_one.values, vector_two.values)
 
     #     self.assertEqual(round(vector_one.angle_between_vectors(vector_one.correlation_coefficient(vector_two)), 8), round(sample_correlation_coefficient, 8))
-
-
-
-
-    
-
-
-
-
 
     
 
