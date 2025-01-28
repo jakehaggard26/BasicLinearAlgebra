@@ -80,7 +80,7 @@ class k_means:
                     print(f"""Vector Assignment {j}, {self.c[j]}""")
                     self.G[i].add(j)
 
-        print(self.G)
+        
 
         return self.z
                 
