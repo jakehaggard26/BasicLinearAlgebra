@@ -10,13 +10,17 @@ class Vector:
         self.values: np.array = np.asarray(values)
         pass
 
-    # def add(self, vector: Vector):
-        
-    #     for i in range(len(self.values)):
-    #         self.values[i] += vector.values[i]
-
     
-    def add(self, value: list[int | float] | int | float):
+    def add(self, value: list[int | float]) -> Vector:
+
+        """
+        Adds a vector or scalar value to the current vector.
+        If a vector is passed in, the corresponding entries of the two vectors are added to each other.
+        If a scalar value is passed in, the scalar value is added to each entry in the vector.
+
+        Returns:
+            Vector: Returns the original vector with the value added to it.
+        """
 
         if isinstance(value, Vector):
             for i in range(len(self.values)):
@@ -29,7 +33,16 @@ class Vector:
 
     def subtract(self, value):
 
-        if isinstance(value, Vector):
+        """
+        Subtracts a vector or scalar value from the current vector.
+        If a vector is passed in, the corresponding entries of the two vectors are subtracted from each other.
+        If a scalar value is passed in, the scalar value is subtracted from each entry in the vector.
+
+        Returns:
+            Vector: Returns the original vector with the value subtracted from it.
+        """
+
+        if isinstance(value, Vector) -> Vector:
             for i in range(len(self.values)):
                 self.values[i] -= value.values[i]
         else:
@@ -38,23 +51,43 @@ class Vector:
 
         return self
 
-    def scale(self, scalar: int|float):
+    def scale(self, scalar: int|float) -> Vector:
+        """
+        Scales the vector by a scalar value. This is done by multiplying each entry in the vector by the scalar value.
+
+        Args:
+            scalar (int | float): The scalar value to scale the vector by.
+
+        Returns:
+            Vector: The original vector scaled by the scalar value.
+        """
         for i in range(len(self.values)):
             self.values[i] *= scalar
 
         return self
 
-    def dot_product(self, vector: Vector):
+    def dot_product(self, vector: Vector) -> int | float:
 
-        total = 0
+        """
+        For a given vector, calculate the dot product of the vector with another vector.
+        The dot product is calculated by multiplying the corresponding entries of the two vectors and summing the result.
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            int | float: Returns an integer or float value that represents the dot product.
+        """
+
+        dot_prod = 0
 
         if len(self.values) != len(vector.values):
             raise ValueError("Vectors are not the same size")
 
         for i in range(len(self.values)):
-            total += (self.values[i] * vector.values[i])
+            dot_prod += (self.values[i] * vector.values[i])
 
-        return total
+        return dot_prod
     
 
     def euclidean_norm(self) -> int | float:
