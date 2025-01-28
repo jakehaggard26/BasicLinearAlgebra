@@ -95,10 +95,17 @@ class k_means:
         return self.z
                 
 
-    def fit(self):
+    def fit(self) -> list[set]:
+        
         """
-        Fits the k-means algorithm to the data.
+        Fits the k-means algorithm to the data by selecting random group representatives and then
+        optimizing the group representatives by assigning vectors to their respective groups and then
+        setting the group representatives to the centroid/mean of the vectors in the group.
+
+        Returns:
+            list[set]: Returns the grouping assignments of the vectors in N.
         """
+
         self.select_random_group_representatives()
 
         prior_j_clust = np.inf
@@ -119,4 +126,4 @@ class k_means:
             prior_j_clust = j_clust
             self.optimize_group_representatives()
 
-        return self.G
+        return self.c
