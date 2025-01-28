@@ -2,7 +2,6 @@ import numpy as np
 import copy
 from DataStructures.Vector import Vector
 
-
 class k_means:
     
     def __init__(self, vectors, k, iterations=100):
@@ -18,9 +17,6 @@ class k_means:
         self.z = list()
         # Number of iterations (Will stop early if the algorithm converges)
         self.iterations = iterations
-        # Stores J Clust values to compare the current value to the value of the prior iteration
-        self.j_clust_scores = []
-
         pass
 
     def select_random_group_representatives(self):
@@ -56,10 +52,6 @@ class k_means:
             for j in range(len(self.z)):
                 # Calculate the distance between the vector and the group representative
                 dist = (np.linalg.norm(self.N[i].values - self.z[j].values))**2
-
-                # print(dist)
-                # print(min_distance)
-                # print()
 
                 # If the distance is less than the current distance, update the distance and group assignment
                 if dist < min_distance:
@@ -112,16 +104,15 @@ class k_means:
 
         for i in range(self.iterations):
 
+            # Minimize the J_clust value
             j_clust = self.minimize_j_clust()
-            print(j_clust)
+            
+            print(f"Iteration {i + 1}: J_clust = {j_clust} --- Prior J_clust = {prior_j_clust}")
 
             # Converges
             if round(j_clust, 16) == round(prior_j_clust, 16):
                 print(f"Algorithm converged in {i + 1} iterations.")
                 break
-
-            # Store scores for comparison
-            #self.j_clust_scores.append(j_clust)
 
             prior_j_clust = j_clust
             self.optimize_group_representatives()
