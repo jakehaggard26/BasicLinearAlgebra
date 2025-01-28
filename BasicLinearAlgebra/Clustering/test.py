@@ -18,5 +18,5 @@ for rep in gr:
 print(km.c)
 for i in range(iterations):
     print(km.minimize_j_clust())
-    km.optimize_group_representatives()
     print(km.c)
+    km.optimize_group_representatives()

@@ -13,7 +13,7 @@ class k_means:
         # cluster assignments; groups are 0 - k-1 so -1 is the default value to signal if a vector wasnt assigned a cluster
         self.c = np.full(len(self.N), -1)
         # Vector grouping indexes
-        self.G = [set()] * k
+        self.G = [set() for x in range(k)]
         # Group representatives
         self.z = list()
         # Stores J Clust values to compare the current value to the value of the prior iteration
@@ -71,7 +71,16 @@ class k_means:
     
     def optimize_group_representatives(self) -> list:
        
-       # WIP
+       # Loop for each group in G & Assign vectors to the their grouping
+        for i in range(len(self.G)):
+            print(f"""Group {i}""")
+            for j in range(len(self.c)):
+                
+                if self.c[j] == i:
+                    print(f"""Vector Assignment {j}, {self.c[j]}""")
+                    self.G[i].add(j)
+
+        print(self.G)
 
         return self.z
                 
