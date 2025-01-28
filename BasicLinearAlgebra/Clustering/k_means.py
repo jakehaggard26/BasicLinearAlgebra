@@ -5,7 +5,7 @@ from DataStructures.Vector import Vector
 
 class k_means:
     
-    def __init__(self, vectors, k):
+    def __init__(self, vectors, k, iterations=100):
         # what we want to cluster
         self.N = vectors
         # the number of clusters
@@ -16,8 +16,10 @@ class k_means:
         self.G = [set() for x in range(k)]
         # Group representatives
         self.z = list()
+        # Number of iterations (Will stop early if the algorithm converges)
+        self.iterations = iterations
         # Stores J Clust values to compare the current value to the value of the prior iteration
-        j_clust_scores = []
+        self.j_clust_scores = []
 
         pass
 
@@ -70,17 +72,51 @@ class k_means:
         return j_clust / len(self.N)
     
     def optimize_group_representatives(self) -> list:
+
+        """
+        Optimizes the group representatives by assigning vectors to their respective groups
+        and then setting the group representatives to the centroid/mean of the vectors in the group.
+
+        Returns:
+            list: Returns a list of the optimized group representatives.
+        """
        
        # Loop for each group in G & Assign vectors to the their grouping
         for i in range(len(self.G)):
-            print(f"""Group {i}""")
             for j in range(len(self.c)):
                 
                 if self.c[j] == i:
-                    print(f"""Vector Assignment {j}, {self.c[j]}""")
                     self.G[i].add(j)
 
-        
+        # Set the group representatives to the centroid/mean of the vectors in the group
+        for i in range(len(self.z)):
+            self.z[i] = Vector(np.mean([self.N[j].values for j in self.G[i]], axis=0))
 
         return self.z
                 
+
+    def fit(self):
+        """
+        Fits the k-means algorithm to the data.
+        """
+        self.select_random_group_representatives()
+
+        prior_j_clust = np.inf
+
+        for i in range(self.iterations):
+
+            j_clust = self.minimize_j_clust()
+            print(j_clust)
+
+            # Converges
+            if round(j_clust, 16) == round(prior_j_clust, 16):
+                print(f"Algorithm converged in {i + 1} iterations.")
+                break
+
+            # Store scores for comparison
+            #self.j_clust_scores.append(j_clust)
+
+            prior_j_clust = j_clust
+            self.optimize_group_representatives()
+
+        return self.G

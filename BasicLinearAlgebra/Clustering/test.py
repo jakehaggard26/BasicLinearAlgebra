@@ -2,21 +2,15 @@ from k_means import k_means
 from DataStructures.Vector import Vector
 import numpy as np
 
-n = 3
-num_vectors = 15
-N = [Vector(np.random.randint(-100,100,n)) for x in range(num_vectors)]
+n = 8
+num_vectors = 15000
+N = [Vector(np.random.randint(-10,10,n)) for x in range(num_vectors)]
 k = 4
 
-km = k_means(N, k)
-iterations = 3
 
-gr = km.select_random_group_representatives()
+iterations = 50
+km = k_means(N, k, iterations)
 
-for rep in gr:
-    print(rep.values)
+km.fit()
 
 print(km.c)
-for i in range(iterations):
-    print(km.minimize_j_clust())
-    print(km.c)
-    km.optimize_group_representatives()
