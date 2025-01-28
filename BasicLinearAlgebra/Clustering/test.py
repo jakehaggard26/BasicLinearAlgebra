@@ -9,19 +9,14 @@ k = 3
 
 km = k_means(N, k)
 
-group_reps, assignment_candidates = km.select_random_group_representatives()
+group_reps = km.select_random_group_representatives()
 
 for i in range(len(N)):
     print(N[i].values)
 
 print('----------------------------------------------------------------')
 
-for i in range(len(assignment_candidates)):
-    print(assignment_candidates[i].values)
-
-print('----------------------------------------------------------------')
-
 for i in range(len(group_reps)):
     print(group_reps[i].values)
 
-km.minimize_j_clust()
+print(km.minimize_j_clust())

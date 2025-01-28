@@ -31,7 +31,7 @@ class k_means:
             del vectors_copy[rand]
 
         # Returns group reps + candidates for assignment
-        return [self.v, vectors_copy]
+        return self.v
     
     def minimize_j_clust(self) -> float:
 
@@ -61,4 +61,8 @@ class k_means:
             j_clust += min_distance
 
         return j_clust
+    
+    def optimize_group_representatives(self):
+
+        return 
                 
