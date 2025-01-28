@@ -52,6 +52,7 @@ class Vector:
         return self
 
     def scale(self, scalar: int|float) -> Vector:
+
         """
         Scales the vector by a scalar value. This is done by multiplying each entry in the vector by the scalar value.
 
@@ -143,6 +144,13 @@ class Vector:
 
     def sum(self) -> int | float:
 
+        """
+        Calculates the sum of all the entries in the vector.
+
+        Returns:
+            int | float: The sum of all the entries in the vector.
+        """
+
         total: int | float = 0
 
         ones = Vector(np.full(len(self.values), 1))
@@ -151,6 +159,14 @@ class Vector:
         return total
 
     def average(self) -> int | float:
+
+        """
+        Calculates the average of all the entries in the vector.
+
+        Returns:
+            int | float: The average of the entries in the vector.
+        """
+
         avg: int | float = 0
 
         denominator = Vector(np.full(len(self.values), 1 / len(self.values)))
@@ -159,14 +175,40 @@ class Vector:
         return avg
     
     def sum_of_squares(self) -> int | float:
+
+        """
+        Calculates the sum of the squares of all the entries in the vector. 
+        This is done by calculating the dot product of the vector with itself.
+
+        Returns:
+            int | float: The sum of squares of the entries in the vector.
+        """
+
         return self.dot_product(self)
     
     def weighted_sum(self, weights: Vector) -> int | float:
+
+        """
+        Calculates the weighted sum of the vector.
+        This is done by calculating the dot product of the vector with the weights vector.
+
+        Returns:
+            int | float: The weighted sum of the vector.
+        """
         
         return self.dot_product(weights)
 
 
     def demeaned_vector(self):
+
+        """
+        Calculates the demeaned vector of the vector.
+        This is done by subtracting the average of the vector from each entry in the vector.
+
+        Returns:
+            Vector: The demeaned vector of the vector passed into the method.
+        """
+
         avg_vector = Vector(np.full(len(self.values), self.average()))
         vector = copy.deepcopy(self)
         demeaned = vector.subtract(avg_vector)
@@ -174,6 +216,17 @@ class Vector:
         return demeaned
     
     def standard_deviation(self) -> int | float:
+
+        """
+        Calculates the standard deviation of the vector.
+        This done by getting the demeaned vector,
+        calculating the sum of the squares of the demeaned vector,
+        dividing by the number of entries in the vector,
+        and then taking the square root of the result.
+
+        Returns:
+            int | float: Returns the standard deviation of the vector.
+        """
         
         std_dev: int | float = 0
 
@@ -190,6 +243,16 @@ class Vector:
         return std_dev
     
     def angle_between_vectors(self, vector: Vector) -> int | float:
+
+        """
+        Given two vectors, calculate the angle between them.
+        This is done by calculating the dot product of the two vectors,
+        dividing by the product of the Euclidean Norm of the two vectors,
+        and then taking the arccos of the result.
+
+        Returns:
+            int | float: The angle between the two vectors in radians.
+        """
         
         angle = 0
 
@@ -197,7 +260,16 @@ class Vector:
 
         return angle
     
-    def calculate_z_scores(self):
+    def calculate_z_scores(self) -> Vector:
+
+        """
+        Given a vector, calculate the Z-scores of the vector.
+        This is done by getting the demeaned vector,
+        scaling the demeaned vector by the inverse of the standard deviation.
+
+        Returns:
+            Vector: Returns a vector of the Z-scores of the original vector.
+        """
         
         demeaned_vector = self.demeaned_vector()
         inv_std_dev = ( 1 / self.standard_deviation())
