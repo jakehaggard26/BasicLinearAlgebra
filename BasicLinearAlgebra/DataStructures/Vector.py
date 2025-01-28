@@ -31,7 +31,7 @@ class Vector:
 
         return self
 
-    def subtract(self, value):
+    def subtract(self, value) -> Vector:
 
         """
         Subtracts a vector or scalar value from the current vector.
@@ -42,7 +42,7 @@ class Vector:
             Vector: Returns the original vector with the value subtracted from it.
         """
 
-        if isinstance(value, Vector) -> Vector:
+        if isinstance(value, Vector):
             for i in range(len(self.values)):
                 self.values[i] -= value.values[i]
         else:
