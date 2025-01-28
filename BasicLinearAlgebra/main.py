@@ -1,18 +1,35 @@
+from Clustering.k_means import k_means
 from DataStructures.Vector import Vector
 import numpy as np
-from scipy.stats import pearsonr
-import copy
 
-v_one = Vector([10,20,40,80])
-v_two = Vector([1.665,2.864,3.7,4.0012154])
-v_random = Vector(np.random.randint(1,10,4))
+# number of elements in a vector
+n = 8
 
+# number of vectors
+num_vectors = 15000
+#N = [Vector(np.random.randint(-10,10,n)) for x in range(num_vectors)]
+N = [
+    # Age, Income, Credit Score
+    Vector([26, 36500, 427]), # "Poor" person
+    Vector([29, 45000, 562]), # "Poor" person
+    Vector([42, 98000, 697]), # "Rich" person
+    Vector([27, 58000, 625]), # "Poor" person
+    Vector([45, 136500, 654]), # "Rich" person
+    Vector([24, 22500, 459]), # "Poor" person
+    
+    Vector([48, 125000, 671]), # "Rich" person
+    Vector([49, 97500, 725]), # "Rich" person
 
+    Vector([56, 1250000, 750]), # "Super Rich" person
+    Vector([59, 1500000, 750]) # "Super Rich" person
+]
 
-r = v_one.correlation_coefficient(v_two)
+# number of clusters
+k = 3
 
+iterations = 50
+km = k_means(N, k, iterations)
 
+km.fit()
 
-print(r)
-print(pearsonr(v_one.values, v_two.values))
-print(np.corrcoef(v_one.values, v_two.values))
+print(km.c)
