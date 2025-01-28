@@ -26,10 +26,39 @@ class k_means:
         vectors_copy = copy.deepcopy(self.N)
 
         for i in range(self.k):
-            rand = np.random.randint(len(self.N))
-
+            rand = np.random.randint(0, len(vectors_copy))
             self.v.append(vectors_copy[rand])
             del vectors_copy[rand]
 
         # Returns group reps + candidates for assignment
         return [self.v, vectors_copy]
+    
+    def minimize_j_clust(self) -> float:
+
+        """
+        Minimizes the J_clust value by assigning each vector in N to a group representative in v.
+        Vectors are assigned to the group representative that is closest to them.
+
+        Returns:
+            float: Returns the optimized J_clust value.
+        """
+        
+        j_clust = 0
+        min_distance =  np.inf
+
+        # Loop for each vector in N
+        for i in range(len(self.N)):
+            # Loop for each group representative in v
+            for j in range(len(self.v)):
+                # Calculate the distance between the vector and the group representative
+                dist = self.N[i].distance(self.v[j])
+                # If the distance is less than the current distance, update the distance and group assignment
+                if dist < min_distance:
+                    min_distance = dist
+                    self.c[i] = j
+
+            # Add the distance to the j_clust value
+            j_clust += min_distance
+
+        return j_clust
+                
