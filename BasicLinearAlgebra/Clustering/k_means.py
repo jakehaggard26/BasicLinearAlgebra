@@ -10,12 +10,12 @@ class k_means:
         self.N = vectors
         # the number of clusters
         self.k = k
-        # cluster assignments; groups are 1 - k so 0 is the default value to signal if a vector wasnt assigned a cluster
-        self.c = np.full(len(self.N), 0)
+        # cluster assignments; groups are 0 - k-1 so -1 is the default value to signal if a vector wasnt assigned a cluster
+        self.c = np.full(len(self.N), -1)
         # Vector grouping indexes
         self.G = [set()] * k
         # Group representatives
-        self.v = list()
+        self.z = list()
         # Stores J Clust values to compare the current value to the value of the prior iteration
         j_clust_scores = []
 
@@ -27,11 +27,11 @@ class k_means:
 
         for i in range(self.k):
             rand = np.random.randint(0, len(vectors_copy))
-            self.v.append(vectors_copy[rand])
+            self.z.append(vectors_copy[rand])
             del vectors_copy[rand]
 
         # Returns group reps + candidates for assignment
-        return self.v
+        return self.z
     
     def minimize_j_clust(self) -> float:
 
@@ -43,15 +43,22 @@ class k_means:
             float: Returns the optimized J_clust value.
         """
         
-        j_clust = 0
+        j_clust = 0.0
         min_distance =  np.inf
 
         # Loop for each vector in N
         for i in range(len(self.N)):
+            
+            min_distance =  np.inf
             # Loop for each group representative in v
-            for j in range(len(self.v)):
+            for j in range(len(self.z)):
                 # Calculate the distance between the vector and the group representative
-                dist = self.N[i].distance(self.v[j])
+                dist = (np.linalg.norm(self.N[i].values - self.z[j].values))**2
+
+                # print(dist)
+                # print(min_distance)
+                # print()
+
                 # If the distance is less than the current distance, update the distance and group assignment
                 if dist < min_distance:
                     min_distance = dist
@@ -60,9 +67,11 @@ class k_means:
             # Add the distance to the j_clust value
             j_clust += min_distance
 
-        return j_clust
+        return j_clust / len(self.N)
     
-    def optimize_group_representatives(self):
+    def optimize_group_representatives(self) -> list:
+       
+       # WIP
 
-        return 
+        return self.z
                 
