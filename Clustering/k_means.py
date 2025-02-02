@@ -118,3 +118,28 @@ class k_means:
             self.optimize_group_representatives()
 
         return self.c
+    
+
+    def predict(self, vectors: list[Vector]) -> list[int]:
+
+        """
+        Predicts the group assignments of a list of vectors.
+
+        Args:
+            vectors (list[Vector]): The vectors to predict the group assignments of.
+
+        Returns:
+            list[int]: Returns the group assignments of the vectors.
+        """
+
+        predictions = np.full(len(vectors), -1)
+
+        for i in range(len(vectors)):
+            min_distance =  np.inf
+            for j in range(len(self.z)):
+                dist = (np.linalg.norm(vectors[i].values - self.z[j].values))**2
+                if dist < min_distance:
+                    min_distance = dist
+                    predictions[i] = j
+
+        return predictions

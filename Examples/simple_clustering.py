@@ -33,3 +33,10 @@ km = k_means(N, k, iterations)
 km.fit()
 
 print(km.c)
+
+prediction_vectors = [
+        Vector([26, 36500, 427]), # "Poor", "young" person
+        Vector([54, 2365000, 787]) # "rich", "old" person
+
+] 
+print(km.predict(prediction_vectors))
