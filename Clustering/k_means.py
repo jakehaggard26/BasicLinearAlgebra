@@ -134,10 +134,17 @@ class k_means:
 
         predictions = np.full(len(vectors), -1)
 
+        # Loop for each vector we want to predict
         for i in range(len(vectors)):
             min_distance =  np.inf
+            
+            # Loop for each group representative in v
             for j in range(len(self.z)):
+
+                # Calculate the distance between the vector and the group representative
                 dist = (np.linalg.norm(vectors[i].values - self.z[j].values))**2
+
+                # Update minimum distance and group assignment if the distance is less than the current distance
                 if dist < min_distance:
                     min_distance = dist
                     predictions[i] = j
