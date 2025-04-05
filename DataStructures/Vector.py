@@ -281,9 +281,9 @@ class Vector:
         # WIP: Is not accurate :(
         corr_coef: int | float = 0
         
-        # corr_coef = (self.demeaned_vector().dot_product(vector.demeaned_vector())
-        #                 / (self.demeaned_vector().euclidean_norm() * vector.demeaned_vector().euclidean_norm())
-        #             )
+        corr_coef = (self.demeaned_vector().dot_product(vector.demeaned_vector())
+                         / (self.demeaned_vector().euclidean_norm() * vector.demeaned_vector().euclidean_norm())
+                     )
 
         u = (self.demeaned_vector().scale( 1 / self.standard_deviation())) 
         v = (vector.demeaned_vector().scale(1 / vector.standard_deviation())) 
