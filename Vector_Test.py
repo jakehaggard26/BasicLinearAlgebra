@@ -28,14 +28,14 @@ class Vector_Unit_Test(unittest.TestCase):
         vector_one = Vector(self.sample_one)
         vector_two = Vector(self.sample_two)
 
-        vector_one.add(vector_two)
+        vector_one = vector_one + vector_two
         
         for i in range(len(vector_one.values)):
             self.assertEqual(vector_one.values[i], samples_added[i])
 
         
         samples_added = self.sample_one + constant
-        vector_one.add(constant)
+        vector_one = vector_one + constant
         
         for i in range(len(vector_one.values)):
             self.assertEqual(vector_one.values[i], samples_added[i])
@@ -49,14 +49,14 @@ class Vector_Unit_Test(unittest.TestCase):
         vector_one = Vector(self.sample_one)
         vector_two = Vector(self.sample_two)
 
-        vector_one.subtract(vector_two)
+        vector_one = vector_one - vector_two
 
         for i in range(len(vector_one.values)):
             self.assertEqual(vector_one.values[i], samples_subtracted[i])
 
         
         samples_subtracted = self.sample_one - constant
-        vector_one.subtract(constant)
+        vector_one = vector_one - constant
         
         for i in range(len(vector_one.values)):
             self.assertEqual(vector_one.values[i], samples_subtracted[i])

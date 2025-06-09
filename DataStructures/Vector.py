@@ -11,7 +11,7 @@ class Vector:
         pass
 
     
-    def add(self, value: list[int | float]) -> Vector:
+    def __add__(self, value: list[int | float]) -> Vector:
 
         """
         Adds a vector or scalar value to the current vector.
@@ -31,7 +31,7 @@ class Vector:
 
         return self
 
-    def subtract(self, value) -> Vector:
+    def __sub__(self, value) -> Vector:
 
         """
         Subtracts a vector or scalar value from the current vector.
@@ -136,8 +136,8 @@ class Vector:
         """
         
         distance: int | float = 0
-
-        distance = ((self.subtract(vector)).euclidean_norm())
+        result = self - vector
+        distance = ((result).euclidean_norm())
 
         return distance
     
@@ -211,7 +211,7 @@ class Vector:
 
         avg_vector = Vector(np.full(len(self.values), self.average()))
         vector = copy.deepcopy(self)
-        demeaned = vector.subtract(avg_vector)
+        demeaned = vector  - avg_vector
 
         return demeaned
     
