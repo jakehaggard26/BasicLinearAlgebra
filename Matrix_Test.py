@@ -13,12 +13,16 @@ class Matrix_Unit_Test(unittest.TestCase):
     
     def test_Matrix_creation(self):
 
-        solution: np.array = np.random.random_sample(10)
         mat1 = Matrix()
+        
+        rand_nums1: np.array = np.random.randint(1,10,5)
+        rand_nums2: np.array = np.random.randint(1,10,5)
+
+        rand_num_matrix = [rand_nums1, rand_nums2]
 
         mat1.matrix = [
-            np.array([1, 2, 3, 4]),
-            np.array([5, 6, 7, 8])
+            rand_nums1,
+            rand_nums2
         ]
    
 
@@ -26,6 +30,10 @@ class Matrix_Unit_Test(unittest.TestCase):
 
         # for i in range(len(vector.values)):
         #     self.assertEqual(vector.values[i], solution[i])
+
+        for i in range(mat1.rows):
+            for j in range(mat1.columns):
+                self.assertEqual(mat1.matrix[i][j], rand_num_matrix[i][j])
 
 
 
