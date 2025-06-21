@@ -3,26 +3,22 @@ import numpy as np
 
 class Matrix:
 
-    def __init__(self, rows=0, columns=0):
+    def __init__(self, value: list[Vector] = None):
 
-        self.__rows = rows
-        self.__columns = columns
-
+        self.__rows = len(value) if value is not None else 0
+        self.__columns = len(value[0].values) if value is not None else 0
         self.__matrix = None
 
-        if rows > 0 and columns > 0:
-            self.__matrix = []
+        if self.rows > 0 and self.columns > 0:
+            self.__matrix = value
 
-            for c in columns:
-                self.__matrix.append(Vector([0] * columns))
-
-        elif rows == 0 and columns > 0:
+        elif self.rows == 0 and self.columns > 0:
             raise Exception("Need at least 1 row.")
         
-        elif rows > 0 and columns == 0:
+        elif self.rows > 0 and self.columns == 0:
             raise Exception("Need at least 1 column.")
         
-        elif rows == 0 and columns == 0:
+        elif self.rows == 0 and self.columns == 0:
             self.__matrix = None
         
         else:
