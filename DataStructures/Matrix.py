@@ -14,7 +14,7 @@ class Matrix:
             self.__matrix = []
 
             for c in columns:
-                self.__matrix.append(Vector())
+                self.__matrix.append(Vector([0] * columns))
 
         elif rows == 0 and columns > 0:
             raise Exception("Need at least 1 row.")
@@ -41,21 +41,21 @@ class Matrix:
 
         if self.rows >= 1:
             for i in range(self.rows):
-                string += str(self.matrix[i]) + '\n'
+                string += str(self.matrix[i].values) + '\n'
         else:
             string = 'Matrix is empty'
 
         return string
     
     @property
-    def matrix(self) -> list[np.array]:
+    def matrix(self) -> list[Vector]:
         return self.__matrix
     
     @matrix.setter
-    def matrix(self, value: list[np.array]):
+    def matrix(self, value: list[Vector]):
         self.__matrix = value
         self.rows = len(value)
-        self.columns = len(value[0])
+        self.columns = len(value[0].values)
 
     @property
     def rows(self):
